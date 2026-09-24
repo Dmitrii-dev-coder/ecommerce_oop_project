@@ -1,5 +1,7 @@
 """Модуль с классами Product и Category."""
 
+import json
+
 
 class Product:
     """Класс Product."""
@@ -37,3 +39,29 @@ class Category:
         self.products = products
         Category.category_count += 1
         Category.product_count += len(products)
+
+
+def load_data(filepath: str) -> list:
+    """Загрузка данных из JSON-файла."""
+    with open(filepath, "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    categories = []
+    for category_data in data:
+        products = [
+            Product(
+                name=p["name"],
+                description=p["description"],
+                price=p["price"],
+                quantity=p["quantity"],
+            )
+            for p in category_data["products"]
+        ]
+        categories.append(
+            Category(
+                name=category_data["name"],
+                description=category_data["description"],
+                products=products,
+            )
+        )
+    return categories

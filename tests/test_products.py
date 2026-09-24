@@ -82,3 +82,18 @@ def test_product_count_increments():
         products=[product1, product2, product3],
     )
     assert Category.product_count == 3
+
+
+# ============================================================================
+# 2. Подгрузка данных из JSON:
+# ============================================================================
+
+# Тест 201: Позитивный тест — подгрузка из JSON.
+def test_load_from_json():
+    """Функция load_data должна создавать объекты из JSON."""
+    from src.products import Category, load_data
+
+    categories = load_data("data/products.json")
+    assert isinstance(categories, list)
+    assert len(categories) > 0
+    assert isinstance(categories[0], Category)
