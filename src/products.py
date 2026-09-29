@@ -22,8 +22,39 @@ class Product:
         """
         self.name = name
         self.description = description
-        self.price = price
+        self._price = price
         self.quantity = quantity
+
+    @property
+    def price(self) -> float:
+        """Возвращает цену продукта."""
+        return self._price
+
+    @price.setter
+    def price(self, value: float) -> None:
+        """Устанавливает цену продукта.
+
+        :param value: Новая цена
+        :raises: Цена не должна быть нулевая или отрицательная
+        """
+        if value <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+            return
+        self._price = value
+
+    @classmethod
+    def new_product(cls, product_data: dict) -> "Product":
+        """Создать продукт из словаря.
+
+        :param product_data: Словарь с данными продукта
+        :return: Экземпляр класса Product
+        """
+        return cls(
+            name=product_data["name"],
+            description=product_data["description"],
+            price=product_data["price"],
+            quantity=product_data["quantity"],
+        )
 
 
 class Category:
@@ -47,6 +78,17 @@ class Category:
         """
         self.__products.append(product)
         Category.product_count += 1
+
+    @property
+    def products(self) -> str:
+        """Возвращает строку со всеми продуктами.
+
+        Формат: "Название продукта, X руб. Остаток: X шт.\n"
+        """
+        result = ""
+        for product in self.__products:
+            result += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+        return result
 
 
 def load_data(filepath: str) -> list:

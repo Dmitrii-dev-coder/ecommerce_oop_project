@@ -141,6 +141,27 @@ def test_add_product_returns_none():
     assert result is None
 
 
+# Тест 204: Позитивный тест — геттер products возвращает строку.
+def test_products_getter_returns_string():
+    """Геттер products должен возвращать строку."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[],
+    )
+    product = Product(name="Товар", description="Описание", price=10.99, quantity=5)
+    category.add_product(product)
+
+    result = category.products
+    assert isinstance(result, str)
+    assert "Товар" in result
+    assert "10.99" in result
+    assert "5" in result
+
+
 # ============================================================================
 # 3. Подгрузка данных из JSON:
 # ============================================================================
@@ -155,3 +176,55 @@ def test_load_from_json():
     assert isinstance(categories, list)
     assert len(categories) > 0
     assert isinstance(categories[0], Category)
+
+
+# Тест 302: Позитивный тест — new_product создает экземпляр Product.
+def test_new_product_creates_instance():
+    """Метод new_product должен создавать объект Product."""
+    product_data = {
+        "name": "Тестовый товар",
+        "description": "Описание",
+        "price": 100.0,
+        "quantity": 10,
+    }
+    product = Product.new_product(product_data)
+    assert isinstance(product, Product)
+    assert product.name == "Тестовый товар"
+    assert product.price == 100.0
+    assert product.quantity == 10
+
+
+# ============================================================================
+# 4. Приватная цена с геттером и сеттером:
+# ============================================================================
+
+
+# Тест 401: Позитивный тест — геттер price возвращает значение.
+def test_price_getter_returns_value():
+    """Геттер price должен возвращать значение приватного атрибута."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    assert product.price == 100.0
+
+
+# Тест 402: Позитивный тест — сеттер устанавливает положительную цену.
+def test_price_setter_positive():
+    """Сеттер price должен устанавливать положительное значение."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    product.price = 200.0
+    assert product.price == 200.0
+
+
+# Тест 403: Позитивный тест — сеттер отклоняет нулевую цену.
+def test_price_setter_zero():
+    """Сеттер price не должен устанавливать нулевую цену."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    product.price = 0
+    assert product.price == 100.0
+
+
+# Тест 404: Позитивный тест — сеттер отклоняет отрицательную цену.
+def test_price_setter_negative():
+    """Сеттер price не должен устанавливать отрицательную цену."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    product.price = -50.0
+    assert product.price == 100.0
