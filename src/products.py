@@ -36,9 +36,17 @@ class Category:
         """Инициализация категории."""
         self.name = name
         self.description = description
-        self.products = products
+        self.__products = list(products)
         Category.category_count += 1
-        Category.product_count += len(products)
+        Category.product_count += len(self.__products)
+
+    def add_product(self, product: "Product") -> None:
+        """Добавить продукт в категорию.
+
+        :param product: Экземпляр класса Product
+        """
+        self.__products.append(product)
+        Category.product_count += 1
 
 
 def load_data(filepath: str) -> list:

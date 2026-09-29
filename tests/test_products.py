@@ -46,10 +46,10 @@ def test_category_has_description(sample_category):
     assert sample_category.description is not None
 
 
-# Тест 103: Позитивный тест — проверка наличия атрибута products.
+# Тест 103: Позитивный тест — проверка наличия приватного атрибута __products.
 def test_category_has_products_list(sample_category):
-    """Category должен иметь атрибут products типа list."""
-    assert isinstance(sample_category.products, list)
+    """Category должен иметь приватный атрибут __products типа list."""
+    assert isinstance(sample_category._Category__products, list)
 
 
 # Тест 104: Позитивный тест — проверка наличия атрибута category_count.
@@ -85,10 +85,68 @@ def test_product_count_increments():
 
 
 # ============================================================================
-# 2. Подгрузка данных из JSON:
+# 2. Приватный атрибут products и метод add_product:
 # ============================================================================
 
-# Тест 201: Позитивный тест — подгрузка из JSON.
+
+# Тест 201: Позитивный тест — add_product добавляет продукт в список.
+def test_add_product_appends_to_list():
+    """Метод add_product должен добавлять продукт в __products."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[],
+    )
+    product = Product(name="Товар", description="Описание", price=10.99, quantity=5)
+
+    category.add_product(product)
+    assert len(category._Category__products) == 1
+    assert category._Category__products[0] is product
+
+
+# Тест 202: Позитивный тест — add_product увеличивает product_count.
+def test_add_product_increments_product_count():
+    """Метод add_product должен увеличивать Category.product_count."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[],
+    )
+    product = Product(name="Товар", description="Описание", price=10.99, quantity=5)
+
+    category.add_product(product)
+    assert Category.product_count == 1
+
+
+# Тест 203: Позитивный тест — add_product возвращает None.
+def test_add_product_returns_none():
+    """Метод add_product не должен возвращать значений."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[],
+    )
+    product = Product(name="Товар", description="Описание", price=10.99, quantity=5)
+
+    result = category.add_product(product)
+    assert result is None
+
+
+# ============================================================================
+# 3. Подгрузка данных из JSON:
+# ============================================================================
+
+
+# Тест 301: Позитивный тест — подгрузка из JSON.
 def test_load_from_json():
     """Функция load_data должна создавать объекты из JSON."""
     from src.products import Category, load_data
