@@ -22,13 +22,13 @@ class Product:
         """
         self.name = name
         self.description = description
-        self._price = price
+        self.__price = price
         self.quantity = quantity
 
     @property
     def price(self) -> float:
         """Возвращает цену продукта."""
-        return self._price
+        return self.__price
 
     @price.setter
     def price(self, value: float) -> None:
@@ -40,7 +40,11 @@ class Product:
         if value <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
-        self._price = value
+        if value < self.__price:
+            confirm = input("Понизить цену? (y/n): ")
+            if confirm.lower() != "y":
+                return
+        self.__price = value
 
     @classmethod
     def new_product(cls, product_data: dict) -> "Product":
@@ -115,3 +119,8 @@ def load_data(filepath: str) -> list:
             )
         )
     return categories
+
+
+# Сброс счётчиков при импорте модуля
+Category.category_count = 0
+Category.product_count = 0

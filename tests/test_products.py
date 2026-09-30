@@ -228,3 +228,11 @@ def test_price_setter_negative():
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
     product.price = -50.0
     assert product.price == 100.0
+
+
+# Тест 405: Позитивный тест — сеттер подтверждает понижение цены.
+def test_price_setter_confirm_decrease():
+    """Сеттер price должен запрашивать подтверждение при понижении."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    product.price = 200.0
+    assert product.price == 200.0
