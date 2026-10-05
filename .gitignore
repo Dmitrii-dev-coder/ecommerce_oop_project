@@ -222,3 +222,4 @@ test_log_example.txt
 
 # Локальные инструкции ассистента
 .gigacode/
+instructions.md

@@ -1,7 +1,9 @@
+import unittest.mock
+
 from src.products import Category, Product
 
 # ============================================================================
-# 0. Проверка класса Product:
+# 0. Проверка наличия атрибутов name, description, price, quantity в классе Product:
 # ============================================================================
 
 
@@ -30,7 +32,7 @@ def test_product_has_quantity(sample_product):
 
 
 # ============================================================================
-# 1. Проверка класса Category:
+# 1. Проверка атрибутов name, description, __products, category_count, product_count в Category
 # ============================================================================
 
 
@@ -85,7 +87,7 @@ def test_product_count_increments():
 
 
 # ============================================================================
-# 2. Приватный атрибут products и метод add_product:
+# 2. Проверка метода add_product для добавления продукта в __products и product_count в Category
 # ============================================================================
 
 
@@ -162,23 +164,53 @@ def test_products_getter_returns_string():
     assert "5" in result
 
 
+# Тест 205: Позитивный тест — геттер products имеет правильный формат.
+def test_products_getter_format():
+    """Геттер products должен возвращать строку в формате: Название, X руб. Остаток: X шт."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[],
+    )
+    product = Product(name="Товар", description="Описание", price=10.99, quantity=5)
+    category.add_product(product)
+
+    result = category.products
+    assert "Товар, 10.99 руб. Остаток: 5 шт." in result
+
+
+# Тест 206: Позитивный тест — геттер products с несколькими товарами.
+def test_products_getter_multiple_products():
+    """Геттер products должен корректно отображать несколько товаров."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[],
+    )
+    product1 = Product(name="Товар 1", description="Описание", price=10.0, quantity=5)
+    product2 = Product(name="Товар 2", description="Описание", price=20.0, quantity=10)
+    category.add_product(product1)
+    category.add_product(product2)
+
+    result = category.products
+    assert "Товар 1" in result
+    assert "Товар 2" in result
+    assert "10.0" in result
+    assert "20.0" in result
+
+
 # ============================================================================
-# 3. Подгрузка данных из JSON:
+# 3. Проверка класс-метода new_product для создания Product из словаря
 # ============================================================================
 
 
-# Тест 301: Позитивный тест — подгрузка из JSON.
-def test_load_from_json():
-    """Функция load_data должна создавать объекты из JSON."""
-    from src.products import Category, load_data
-
-    categories = load_data("data/products.json")
-    assert isinstance(categories, list)
-    assert len(categories) > 0
-    assert isinstance(categories[0], Category)
-
-
-# Тест 302: Позитивный тест — new_product создает экземпляр Product.
+# Тест 301: Позитивный тест — new_product создает экземпляр Product.
 def test_new_product_creates_instance():
     """Метод new_product должен создавать объект Product."""
     product_data = {
@@ -194,19 +226,51 @@ def test_new_product_creates_instance():
     assert product.quantity == 10
 
 
+# Тест 302: Позитивный тест — new_product корректно передаёт все данные.
+def test_new_product_correct_data():
+    """Метод new_product должен корректно передавать все данные из словаря."""
+    product_data = {
+        "name": "Новый телефон",
+        "description": "Смартфон с хорошей камерой",
+        "price": 50000.0,
+        "quantity": 25,
+    }
+    product = Product.new_product(product_data)
+    assert product.name == "Новый телефон"
+    assert product.description == "Смартфон с хорошей камерой"
+    assert product.price == 50000.0
+    assert product.quantity == 25
+
+
 # ============================================================================
-# 4. Приватная цена с геттером и сеттером:
+# 4. Проверка функции load_data для загрузки данных из JSON и создания объектов Category, Product
 # ============================================================================
 
 
-# Тест 401: Позитивный тест — геттер price возвращает значение.
+# Тест 401: Позитивный тест — подгрузка из JSON.
+def test_load_from_json():
+    """Функция load_data должна создавать объекты из JSON."""
+    from src.products import Category, load_data
+
+    categories = load_data("data/products.json")
+    assert isinstance(categories, list)
+    assert len(categories) > 0
+    assert isinstance(categories[0], Category)
+
+
+# ============================================================================
+# 5. Проверка __price из Product, геттера price, сеттера price на положительное значение и подтверждением понижения
+# ============================================================================
+
+
+# Тест 501: Позитивный тест — геттер price возвращает значение.
 def test_price_getter_returns_value():
     """Геттер price должен возвращать значение приватного атрибута."""
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
     assert product.price == 100.0
 
 
-# Тест 402: Позитивный тест — сеттер устанавливает положительную цену.
+# Тест 502: Позитивный тест — сеттер устанавливает положительную цену.
 def test_price_setter_positive():
     """Сеттер price должен устанавливать положительное значение."""
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
@@ -214,7 +278,7 @@ def test_price_setter_positive():
     assert product.price == 200.0
 
 
-# Тест 403: Позитивный тест — сеттер отклоняет нулевую цену.
+# Тест 503: Позитивный тест — сеттер отклоняет нулевую цену.
 def test_price_setter_zero():
     """Сеттер price не должен устанавливать нулевую цену."""
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
@@ -222,7 +286,7 @@ def test_price_setter_zero():
     assert product.price == 100.0
 
 
-# Тест 404: Позитивный тест — сеттер отклоняет отрицательную цену.
+# Тест 504: Позитивный тест — сеттер отклоняет отрицательную цену.
 def test_price_setter_negative():
     """Сеттер price не должен устанавливать отрицательную цену."""
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
@@ -230,9 +294,19 @@ def test_price_setter_negative():
     assert product.price == 100.0
 
 
-# Тест 405: Позитивный тест — сеттер подтверждает понижение цены.
-def test_price_setter_confirm_decrease():
-    """Сеттер price должен запрашивать подтверждение при понижении."""
+# Тест 505: Позитивный тест — подтверждение понижения цены с "y".
+def test_price_setter_confirm_decrease_with_yes():
+    """Сеттер price должен понизить цену при подтверждении 'y'."""
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
-    product.price = 200.0
-    assert product.price == 200.0
+    with unittest.mock.patch("builtins.input", return_value="y"):
+        product.price = 50.0
+    assert product.price == 50.0
+
+
+# Тест 506: Позитивный тест — отказ от понижения цены с "n".
+def test_price_setter_confirm_decrease_with_no():
+    """Сеттер price не должен понижать цену при отказе 'n'."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    with unittest.mock.patch("builtins.input", return_value="n"):
+        product.price = 50.0
+    assert product.price == 100.0
