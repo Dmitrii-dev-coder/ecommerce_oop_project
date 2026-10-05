@@ -1,0 +1,26 @@
+"""Конфигурация pytest — фикстуры для тестов."""
+
+import pytest
+
+from src.products import Category, Product
+
+
+@pytest.fixture
+def sample_product():
+    """Фикстура для Product."""
+    return Product(
+        name="Тестовый товар",
+        description="Тестовое описание",
+        price=100.50,
+        quantity=10,
+    )
+
+
+@pytest.fixture
+def sample_category():
+    """Фикстура для Category."""
+    return Category(
+        name="Тестовая категория",
+        description="Тестовое описание",
+        products=[],
+    )
