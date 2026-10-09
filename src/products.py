@@ -60,6 +60,20 @@ class Product:
             quantity=product_data["quantity"],
         )
 
+    def __str__(self) -> str:
+        """Возвращает строковое представление продукта."""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other) -> float:
+        """Возвращает сумму цен двух продуктов с учётом количества.
+
+        :param other: Другой экземпляр Product
+        :return: Сумма (цена * количество) текущего и другого продукта
+        """
+        if not isinstance(other, Product):
+            raise TypeError("Can only add Product instances")
+        return self.price * self.quantity + other.price * other.quantity
+
 
 class Category:
     """Класс Category."""
@@ -82,6 +96,10 @@ class Category:
         """
         self.__products.append(product)
         Category.product_count += 1
+
+    def __str__(self) -> str:
+        """Возвращает строковое представление категории."""
+        return f"Категория: {self.name}, Описание: {self.description}, Товаров: {len(self._Category__products)}"
 
     @property
     def products(self) -> str:

@@ -310,3 +310,116 @@ def test_price_setter_confirm_decrease_with_no():
     with unittest.mock.patch("builtins.input", return_value="n"):
         product.price = 50.0
     assert product.price == 100.0
+
+
+# ============================================================================
+# 6. Проверка магических методов __str__ для Product и Category
+# ============================================================================
+
+
+# Тест 601: Позитивный тест — __str__ для Product возвращает строку.
+def test_product_str_returns_string():
+    """Метод __str__ для Product должен возвращать строку."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    result = str(product)
+    assert isinstance(result, str)
+    assert "Товар" in result
+    assert "100.0" in result
+    assert "5" in result
+
+
+# Тест 602: Позитивный тест — __str__ для Product имеет правильный формат.
+def test_product_str_format():
+    """Метод __str__ для Product должен возвращать строку в формате: Название, X руб. Остаток: X шт."""
+    product = Product(name="Смартфон", description="Смартфон с хорошей камерой", price=50000.0, quantity=25)
+    result = str(product)
+    assert "Смартфон, 50000.0 руб. Остаток: 25 шт." in result
+
+
+# Тест 603: Позитивный тест — __str__ для Category возвращает строку.
+def test_category_str_returns_string():
+    """Метод __str__ для Category должен возвращать строку."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Электроника",
+        description="Техника и гаджеты",
+        products=[],
+    )
+    result = str(category)
+    assert isinstance(result, str)
+    assert "Электроника" in result
+    assert "Техника и гаджеты" in result
+
+
+# Тест 604: Позитивный тест — __str__ для Category показывает количество товаров.
+def test_category_str_with_products():
+    """Метод __str__ для Category должен показывать количество товаров."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    product1 = Product(name="Товар 1", description="Описание", price=10.0, quantity=5)
+    product2 = Product(name="Товар 2", description="Описание", price=20.0, quantity=10)
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[product1, product2],
+    )
+    result = str(category)
+    assert "Товаров: 2" in result
+
+
+# ============================================================================
+# 7. Проверка магического метода __add__ для Product
+# ============================================================================
+
+
+# Тест 701: Позитивный тест — __add__ возвращает сумму цен с учётом количества.
+def test_product_add_returns_sum():
+    """Метод __add__ должен возвращать сумму (цена * количество) двух продуктов."""
+    product1 = Product(name="Товар 1", description="Описание", price=10.0, quantity=5)
+    product2 = Product(name="Товар 2", description="Описание", price=20.0, quantity=3)
+    result = product1 + product2
+    assert result == 10.0 * 5 + 20.0 * 3
+    assert result == 110.0
+
+
+# Тест 702: Позитивный тест — __add__ возвращает float.
+def test_product_add_returns_float():
+    """Метод __add__ должен возвращать значение типа float."""
+    product1 = Product(name="Товар 1", description="Описание", price=10.0, quantity=5)
+    product2 = Product(name="Товар 2", description="Описание", price=20.0, quantity=3)
+    result = product1 + product2
+    assert isinstance(result, float)
+
+
+# Тест 703: Позитивный тест — __add__ с продуктами одинаковой цены.
+def test_product_add_same_price():
+    """Метод __add__ должен корректно складывать продукты с одинаковой ценой."""
+    product1 = Product(name="Товар 1", description="Описание", price=50.0, quantity=10)
+    product2 = Product(name="Товар 2", description="Описание", price=50.0, quantity=10)
+    result = product1 + product2
+    assert result == 50.0 * 10 + 50.0 * 10
+    assert result == 1000.0
+
+
+# Тест 704: Позитивный тест — __add__ с нулевым количеством.
+def test_product_add_zero_quantity():
+    """Метод __add__ должен корректно обрабатывать продукты с нулевым количеством."""
+    product1 = Product(name="Товар 1", description="Описание", price=10.0, quantity=0)
+    product2 = Product(name="Товар 2", description="��писание", price=20.0, quantity=5)
+    result = product1 + product2
+    assert result == 10.0 * 0 + 20.0 * 5
+    assert result == 100.0
+
+
+# Тест 705: Негативный тест — __add__ с не Product объектом вызывает TypeError.
+def test_product_add_invalid_type():
+    """Метод __add__ должен вызывать TypeError для не Product объектов."""
+    product = Product(name="Товар", description="Описание", price=10.0, quantity=5)
+    try:
+        product + "не продукт"
+        assert False, "TypeError не был вызван"
+    except TypeError as e:
+        assert "Can only add Product instances" in str(e)
