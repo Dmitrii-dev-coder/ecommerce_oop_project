@@ -1,6 +1,7 @@
 import unittest.mock
 
-from src.products import Category, Product
+from src.product import Product
+from src.category import Category
 
 # ============================================================================
 # 0. Проверка наличия атрибутов name, description, price, quantity в классе Product:
@@ -250,7 +251,7 @@ def test_new_product_correct_data():
 # Тест 401: Позитивный тест — подгрузка из JSON.
 def test_load_from_json():
     """Функция load_data должна создавать объекты из JSON."""
-    from src.products import Category, load_data
+    from src.load_data import load_data
 
     categories = load_data("data/products.json")
     assert isinstance(categories, list)
@@ -338,7 +339,7 @@ def test_product_str_format():
 
 # Тест 603: Позитивный тест — __str__ для Category возвращает строку.
 def test_category_str_returns_string():
-    """Метод __str__ для Category должен возвращать строку."""
+    """Метод __str__ для Category должен возвращать строку в формате: Название, количество продуктов: X шт."""
     Category.category_count = 0
     Category.product_count = 0
 
@@ -350,12 +351,13 @@ def test_category_str_returns_string():
     result = str(category)
     assert isinstance(result, str)
     assert "Электроника" in result
-    assert "Техника и гаджеты" in result
+    assert "количество продуктов" in result
+    assert "0" in result
 
 
-# Тест 604: Позитивный тест — __str__ для Category показывает количество товаров.
+# Тест 604: Позитивный тест — __str__ для Category показывает сумму quantity.
 def test_category_str_with_products():
-    """Метод __str__ для Category должен показывать количество товаров."""
+    """Метод __str__ для Category должен показывать сумму quantity всех продуктов."""
     Category.category_count = 0
     Category.product_count = 0
 
@@ -367,7 +369,8 @@ def test_category_str_with_products():
         products=[product1, product2],
     )
     result = str(category)
-    assert "Товаров: 2" in result
+    assert "количество продуктов" in result
+    assert "15" in result
 
 
 # ============================================================================
