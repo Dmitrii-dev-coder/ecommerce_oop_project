@@ -23,27 +23,6 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
-    @property
-    def price(self) -> float:
-        """Возвращает цену продукта."""
-        return self.__price
-
-    @price.setter
-    def price(self, value: float) -> None:
-        """Устанавливает цену продукта.
-
-        :param value: Новая цена
-        :raises: Цена не должна быть нулевая или отрицательная
-        """
-        if value <= 0:
-            print("Цена не должна быть нулевая или отрицательная")
-            return
-        if value < self.__price:
-            confirm = input("Понизить цену? (y/n): ")
-            if confirm.lower() != "y":
-                return
-        self.__price = value
-
     @classmethod
     def new_product(cls, product_data: dict) -> "Product":
         """Создать продукт из словаря.
@@ -69,5 +48,26 @@ class Product:
         :return: Сумма (цена * количество) текущего и другого продукта
         """
         if not isinstance(other, Product):
-            raise TypeError("Can only add Product instances")
+            raise TypeError("Можно добавлять только экземпляр Product")
         return self.price * self.quantity + other.price * other.quantity
+
+    @property
+    def price(self) -> float:
+        """Возвращает цену продукта."""
+        return self.__price
+
+    @price.setter
+    def price(self, value: float) -> None:
+        """Устанавливает цену продукта.
+
+        :param value: Новая цена
+        :raises: Цена не должна быть нулевая или отрицательная
+        """
+        if value <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+            return
+        if value < self.__price:
+            confirm = input("Понизить цену? (y/n): ")
+            if confirm.lower() != "y":
+                return
+        self.__price = value

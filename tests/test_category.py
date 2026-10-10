@@ -5,29 +5,30 @@ from src.category import Category
 
 
 # ============================================================================
-# 1. Проверка атрибутов name, description, __products, category_count, product_count в Category
+# 0. Проверка атрибутов name, description, __products, category_count, product_count в Category
 # ============================================================================
 
 
-# Тест 101: Позитивный тест — проверка наличия атрибута name.
+# Тест 001: Позитивный тест — проверка наличия атрибута name.
 def test_category_has_name(sample_category):
     """Category должен иметь атрибут name."""
     assert sample_category.name is not None
 
 
-# Тест 102: Позитивный тест — проверка наличия атрибута description.
+# Тест 002: Позитивный тест — проверка наличия атрибута description.
 def test_category_has_description(sample_category):
     """Category должен иметь атрибут description."""
     assert sample_category.description is not None
 
 
-# Тест 103: Позитивный тест — проверка наличия приватного атрибута __products.
+# Тест 003: Позитивный тест — проверка наличия приватного атрибута __products.
 def test_category_has_products_list(sample_category):
     """Category должен иметь приватный атрибут __products типа list."""
-    assert isinstance(sample_category._Category__products, list)
+    products = sample_category.products_list
+    assert isinstance(products, list)
 
 
-# Тест 104: Позитивный тест — проверка наличия атрибута category_count.
+# Тест 004: Позитивный тест — проверка наличия атрибута category_count.
 def test_category_count_increments():
     """Category.category_count должен увеличиваться."""
     Category.category_count = 0
@@ -41,7 +42,7 @@ def test_category_count_increments():
     assert Category.category_count == 1
 
 
-# Тест 105: Позитивный тест — проверка наличия атрибута product_count.
+# Тест 005: Позитивный тест — проверка наличия атрибута product_count.
 def test_product_count_increments():
     """Category.product_count должен увеличиваться на количество товаров."""
     Category.category_count = 0
@@ -60,11 +61,11 @@ def test_product_count_increments():
 
 
 # ============================================================================
-# 2. Проверка метода add_product для добавления продукта в __products и product_count в Category
+# 1. Проверка метода add_product для добавления продукта в __products и product_count в Category
 # ============================================================================
 
 
-# Тест 201: Позитивный тест — add_product добавляет продукт в список.
+# Тест 101: Позитивный тест — add_product добавляет продукт в список.
 def test_add_product_appends_to_list():
     """Метод add_product должен добавлять продукт в __products."""
     Category.category_count = 0
@@ -78,11 +79,12 @@ def test_add_product_appends_to_list():
     product = Product(name="Товар", description="Описание", price=10.99, quantity=5)
 
     category.add_product(product)
-    assert len(category._Category__products) == 1
-    assert category._Category__products[0] is product
+    products = category.products_list
+    assert len(products) == 1
+    assert products[0] is product
 
 
-# Тест 202: Позитивный тест — add_product увеличивает product_count.
+# Тест 102: Позитивный тест — add_product увеличивает product_count.
 def test_add_product_increments_product_count():
     """Метод add_product должен увеличивать Category.product_count."""
     Category.category_count = 0
@@ -99,7 +101,7 @@ def test_add_product_increments_product_count():
     assert Category.product_count == 1
 
 
-# Тест 203: Позитивный тест — add_product возвращает None.
+# Тест 103: Позитивный тест — add_product возвращает None.
 def test_add_product_returns_none():
     """Метод add_product не должен возвращать значений."""
     Category.category_count = 0
@@ -116,9 +118,9 @@ def test_add_product_returns_none():
     assert result is None
 
 
-# Тест 204: Позитивный тест — геттер products возвращает строку.
+# Тест 104: Позитивный тест — геттер products возвращает строку с корректными данными.
 def test_products_getter_returns_string():
-    """Геттер products должен возвращать строку."""
+    """Геттер products должен возвращать строку и содержать название, цену и количество продукта."""
     Category.category_count = 0
     Category.product_count = 0
 
@@ -137,7 +139,7 @@ def test_products_getter_returns_string():
     assert "5" in result
 
 
-# Тест 205: Позитивный тест — геттер products имеет правильный формат.
+# Тест 105: Позитивный тест — геттер products имеет правильный формат.
 def test_products_getter_format():
     """Геттер products должен возвращать строку в формате: Название, X руб. Остаток: X шт."""
     Category.category_count = 0
@@ -155,7 +157,7 @@ def test_products_getter_format():
     assert "Товар, 10.99 руб. Остаток: 5 шт." in result
 
 
-# Тест 206: Позитивный тест — геттер products с несколькими товарами.
+# Тест 106: Позитивный тест — геттер products с несколькими товарами.
 def test_products_getter_multiple_products():
     """Геттер products должен корректно отображать несколько товаров."""
     Category.category_count = 0
@@ -179,11 +181,11 @@ def test_products_getter_multiple_products():
 
 
 # ============================================================================
-# 6. Проверка магических методов __str__ для Category
+# 2. Проверка магического метода __str__ для Category
 # ============================================================================
 
 
-# Тест 603: Позитивный тест — __str__ для Category возвращает строку.
+# Тест 201: Позитивный тест — __str__ для Category возвращает строку.
 def test_category_str_returns_string():
     """Метод __str__ для Category должен возвращать строку в формате: Название, количество продуктов: X шт."""
     Category.category_count = 0
@@ -201,7 +203,7 @@ def test_category_str_returns_string():
     assert "0" in result
 
 
-# Тест 604: Позитивный тест — __str__ для Category показывает сумму quantity.
+# Тест 202: Позитивный тест — __str__ для Category показывает сумму quantity.
 def test_category_str_with_products():
     """Метод __str__ для Category должен показывать сумму quantity всех продуктов."""
     Category.category_count = 0

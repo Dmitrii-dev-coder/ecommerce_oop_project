@@ -22,6 +22,23 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(self.__products)
 
+    def __str__(self) -> str:
+        """Возвращает строковое представление категории.
+
+        Формат: "Название категории, количество продуктов: X шт."
+        Количество продуктов — сумма quantity всех продуктов на складе.
+        """
+        total_quantity = sum(product.quantity for product in self.products_list)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
+
+    @property
+    def products_list(self) -> list[Product]:
+        """Возвращает список продуктов в категории.
+
+        :return: Список объектов Product
+        """
+        return self.__products
+
     def add_product(self, product: Product) -> None:
         """Добавить продукт в категорию.
 
@@ -29,15 +46,6 @@ class Category:
         """
         self.__products.append(product)
         Category.product_count += 1
-
-    def __str__(self) -> str:
-        """Возвращает строковое представление категории.
-
-        Формат: "Название категории, количество продуктов: X шт."
-        Количество продуктов — сумма quantity всех продуктов на складе.
-        """
-        total_quantity = sum(product.quantity for product in self._Category__products)
-        return f"{self.name}, количество продуктов: {total_quantity} шт."
 
     @property
     def products(self) -> str:
