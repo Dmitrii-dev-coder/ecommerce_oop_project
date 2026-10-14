@@ -44,11 +44,16 @@ class Product:
     def __add__(self, other) -> float:
         """Возвращает сумму цен двух продуктов с учётом количества.
 
-        :param other: Другой экземпляр Product
+        Складывать можно только объекты одного класса.
+
+        :param other: Другой экземпляр Product или его наследника
         :return: Сумма (цена * количество) текущего и другого продукта
+        :raises TypeError: Если объекты разных классов
         """
-        if not isinstance(other, Product):
-            raise TypeError("Можно добавлять только экземпляр Product")
+        if type(self) != type(other):  # noqa: E721
+            raise TypeError(
+                "Можно складывать только объекты одного класса (Product или его наследников)"
+            )
         return self.price * self.quantity + other.price * other.quantity
 
     @property

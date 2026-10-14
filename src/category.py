@@ -42,8 +42,13 @@ class Category:
     def add_product(self, product: Product) -> None:
         """Добавить продукт в категорию.
 
-        :param product: Экземпляр класса Product
+        :param product: Экземпляр класса Product или его наследника
+        :raises TypeError: Если передан объект не типа Product
         """
+        if not isinstance(product, Product):
+            raise TypeError(
+                "Можно добавлять только объекты типа Product или его наследников"
+            )
         self.__products.append(product)
         Category.product_count += 1
 
