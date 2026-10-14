@@ -1,8 +1,11 @@
 """Тесты для класса Product."""
 
+import pytest
 import unittest.mock
 
 from src.product import Product
+from src.smartphone import Smartphone
+from src.lawn_grass import LawnGrass
 
 
 # ============================================================================
@@ -200,3 +203,144 @@ def test_product_add_invalid_type():
         assert False, "TypeError не был вызван"
     except TypeError as e:
         assert "Product" in str(e)
+
+
+# ============================================================================
+# 5. Проверка ограничений сложения через type() (Задание 2)
+# ============================================================================
+
+
+# Тест 501: Позитивный тест — сложение двух Product работает.
+def test_add_two_product():
+    """Сложение двух Product объектов должно работать."""
+    product1 = Product(name="Товар 1", description="Описание", price=10.0, quantity=5)
+    product2 = Product(name="Товар 2", description="Описание", price=20.0, quantity=3)
+    result = product1 + product2
+    assert result == 110.0
+
+
+# Тест 502: Позитивный тест — сложение двух Smartphone работает.
+def test_add_two_smartphone():
+    """Сложение двух Smartphone объектов должно работать."""
+    smartphone1 = Smartphone(
+        name="iPhone 15",
+        description="Флагманский смартфон Apple",
+        price=99990.0,
+        quantity=10,
+        efficiency="high",
+        model="iPhone 15 Pro",
+        memory="256GB",
+        color="Черный",
+    )
+    smartphone2 = Smartphone(
+        name="Samsung Galaxy",
+        description="Флагманский смартфон Samsung",
+        price=89990.0,
+        quantity=5,
+        efficiency="high",
+        model="Galaxy S24",
+        memory="128GB",
+        color="Белый",
+    )
+    result = smartphone1 + smartphone2
+    assert isinstance(result, float)
+    assert result > 0
+
+
+# Тест 503: Позитивный тест — сложение двух LawnGrass работает.
+def test_add_two_lawn_grass():
+    """Сложение двух LawnGrass объектов должно работать."""
+    lawn_grass1 = LawnGrass(
+        name="Газон 1",
+        description="Смесь газонных трав",
+        price=500.0,
+        quantity=20,
+        country="Россия",
+        germination_period="14 дней",
+        color="Зеленый",
+    )
+    lawn_grass2 = LawnGrass(
+        name="Газон 2",
+        description="Смесь газонных трав",
+        price=600.0,
+        quantity=15,
+        country="Россия",
+        germination_period="14 дней",
+        color="Зеленый",
+    )
+    result = lawn_grass1 + lawn_grass2
+    assert isinstance(result, float)
+    assert result > 0
+
+
+# Тест 504: Негативный тест — сложение Smartphone и LawnGrass вызывает TypeError.
+def test_add_smartphone_and_lawn_grass_raises_type_error():
+    """Сложение Smartphone и LawnGrass должно вызывать TypeError."""
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагманский смартфон Apple",
+        price=99990.0,
+        quantity=10,
+        efficiency="high",
+        model="iPhone 15 Pro",
+        memory="256GB",
+        color="Черный",
+    )
+    lawn_grass = LawnGrass(
+        name="Газон 1",
+        description="Смесь газонных трав",
+        price=500.0,
+        quantity=20,
+        country="Россия",
+        germination_period="14 дней",
+        color="Зеленый",
+    )
+    with pytest.raises(TypeError) as exc_info:
+        smartphone + lawn_grass
+    assert "одного класса" in str(exc_info.value)
+
+
+# Тест 505: Негативный тест — сложение Smartphone и Product вызывает TypeError.
+def test_add_smartphone_and_product_raises_type_error():
+    """Сложение Smartphone и Product должно вызывать TypeError."""
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагманский смартфон Apple",
+        price=99990.0,
+        quantity=10,
+        efficiency="high",
+        model="iPhone 15 Pro",
+        memory="256GB",
+        color="Черный",
+    )
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    with pytest.raises(TypeError) as exc_info:
+        smartphone + product
+    assert "одного класса" in str(exc_info.value)
+
+
+# Тест 506: Негативный тест — сложение LawnGrass и Product вызывает TypeError.
+def test_add_lawn_grass_and_product_raises_type_error():
+    """Сложение LawnGrass и Product должно вызывать TypeError."""
+    lawn_grass = LawnGrass(
+        name="Газон 1",
+        description="Смесь газонных трав",
+        price=500.0,
+        quantity=20,
+        country="Россия",
+        germination_period="14 дней",
+        color="Зеленый",
+    )
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    with pytest.raises(TypeError) as exc_info:
+        lawn_grass + product
+    assert "одного класса" in str(exc_info.value)
+
+
+# Тест 507: Негативный тест — сложение Product со строкой вызывает TypeError.
+def test_add_product_and_string_raises_type_error():
+    """Сложение Product и строки должно вызывать TypeError."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    with pytest.raises(TypeError) as exc_info:
+        product + "не продукт"
+    assert "одного класса" in str(exc_info.value)

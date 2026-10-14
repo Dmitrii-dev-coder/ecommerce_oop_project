@@ -151,12 +151,11 @@
 │   └── load_data.py     # Функция load_data
 └── tests/
     ├── conftest.py              # Фикстуры pytest
-    ├── test_product.py          # Тесты для Product (19 тестов)
-    ├── test_category.py         # Тесты для Category (13 тестов)
+    ├── test_product.py          # Тесты для Product (26 тестов)
+    ├── test_category.py         # Тесты для Category (20 тестов)
     ├── test_load_data.py        # Тесты для load_data (1 тест)
     ├── test_smartphone.py       # Тесты для Smartphone (14 тестов)
-    ├── test_lawn_grass.py       # Тесты для LawnGrass (13 тестов)
-    └── test_inheritance.py      # Тесты для наследования и ограничений (14 тестов)
+    └── test_lawn_grass.py       # Тесты для LawnGrass (13 тестов)
 ```
 
 ---
@@ -180,12 +179,11 @@ pytest --cov=src --cov-report=html
 ### Результаты
 
 - **Всего тестов:** 74
-  - Product: 19 тестов
-  - Category: 13 тестов
+  - Product: 26 тестов
+  - Category: 20 тестов
   - LoadData: 1 тест
   - Smartphone: 14 тестов
   - LawnGrass: 13 тестов
-  - Inheritance: 14 тестов
 - **Покрытие:** 99%
 - **Статус:** Все тесты проходят
 - **Качество кода:** flake8 clean, mypy clean
