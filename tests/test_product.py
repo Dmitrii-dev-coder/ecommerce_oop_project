@@ -129,6 +129,32 @@ def test_price_setter_confirm_decrease_with_no():
     assert product.price == 100.0
 
 
+# Тест 207: Позитивный тест — отказ от понижения цены с "N" (заглавная).
+def test_price_setter_confirm_decrease_with_N():
+    """Сеттер price не должен понижать цену при отказе 'N' (заглавная)."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    with unittest.mock.patch("builtins.input", return_value="N"):
+        product.price = 50.0
+    assert product.price == 100.0
+
+
+# Тест 208: Позитивный тест — отказ от понижения цены с любым другим ответом.
+def test_price_setter_confirm_decrease_with_other():
+    """Сеттер price не должен понижать цену при любом ответе кроме 'y'."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    with unittest.mock.patch("builtins.input", return_value="yes"):
+        product.price = 50.0
+    assert product.price == 100.0
+
+
+# Тест 209: Позитивный тест — установка цены равной текущей.
+def test_price_setter_equal_to_current():
+    """Сеттер price должен устанавливать цену равную текущей."""
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    product.price = 100.0
+    assert product.price == 100.0
+
+
 # ============================================================================
 # 3. Проверка магических методов __str__ для Product
 # ============================================================================
@@ -210,16 +236,7 @@ def test_product_add_invalid_type():
 # ============================================================================
 
 
-# Тест 501: Позитивный тест — сложение двух Product работает.
-def test_add_two_product():
-    """Сложение двух Product объектов должно работать."""
-    product1 = Product(name="Товар 1", description="Описание", price=10.0, quantity=5)
-    product2 = Product(name="Товар 2", description="Описание", price=20.0, quantity=3)
-    result = product1 + product2
-    assert result == 110.0
-
-
-# Тест 502: Позитивный тест — сложение двух Smartphone работает.
+# Тест 501: Позитивный тест — сложение двух экземпляров Smartphone работает.
 def test_add_two_smartphone():
     """Сложение двух Smartphone объектов должно работать."""
     smartphone1 = Smartphone(
@@ -244,10 +261,10 @@ def test_add_two_smartphone():
     )
     result = smartphone1 + smartphone2
     assert isinstance(result, float)
-    assert result > 0
+    assert result == 1449850.0
 
 
-# Тест 503: Позитивный тест — сложение двух LawnGrass работает.
+# Тест 502: Позитивный тест — сложение двух LawnGrass работает.
 def test_add_two_lawn_grass():
     """Сложение двух LawnGrass объектов должно работать."""
     lawn_grass1 = LawnGrass(
@@ -270,10 +287,10 @@ def test_add_two_lawn_grass():
     )
     result = lawn_grass1 + lawn_grass2
     assert isinstance(result, float)
-    assert result > 0
+    assert result == 19000.0
 
 
-# Тест 504: Негативный тест — сложение Smartphone и LawnGrass вызывает TypeError.
+# Тест 503: Негативный тест — сложение Smartphone и LawnGrass вызывает TypeError.
 def test_add_smartphone_and_lawn_grass_raises_type_error():
     """Сложение Smartphone и LawnGrass должно вызывать TypeError."""
     smartphone = Smartphone(
@@ -300,7 +317,7 @@ def test_add_smartphone_and_lawn_grass_raises_type_error():
     assert "одного класса" in str(exc_info.value)
 
 
-# Тест 505: Негативный тест — сложение Smartphone и Product вызывает TypeError.
+# Тест 504: Негативный тест — сложение Smartphone и Product вызывает TypeError.
 def test_add_smartphone_and_product_raises_type_error():
     """Сложение Smartphone и Product должно вызывать TypeError."""
     smartphone = Smartphone(
@@ -319,7 +336,7 @@ def test_add_smartphone_and_product_raises_type_error():
     assert "одного класса" in str(exc_info.value)
 
 
-# Тест 506: Негативный тест — сложение LawnGrass и Product вызывает TypeError.
+# Тест 505: Негативный тест — сложение LawnGrass и Product вызывает TypeError.
 def test_add_lawn_grass_and_product_raises_type_error():
     """Сложение LawnGrass и Product должно вызывать TypeError."""
     lawn_grass = LawnGrass(
@@ -337,7 +354,7 @@ def test_add_lawn_grass_and_product_raises_type_error():
     assert "одного класса" in str(exc_info.value)
 
 
-# Тест 507: Негативный тест — сложение Product со строкой вызывает TypeError.
+# Тест 506: Негативный тест — сложение Product со строкой вызывает TypeError.
 def test_add_product_and_string_raises_type_error():
     """Сложение Product и строки должно вызывать TypeError."""
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)

@@ -1,7 +1,6 @@
 """Тесты для класса Smartphone."""
 
 from src.product import Product
-from src.smartphone import Smartphone
 
 
 # ============================================================================
@@ -10,67 +9,27 @@ from src.smartphone import Smartphone
 
 
 # Тест 001: Позитивный тест — проверка наследования атрибута name.
-def test_smartphone_inherits_name():
+def test_smartphone_inherits_name(sample_smartphone):
     """Smartphone должен наследовать атрибут name от Product."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.name == "iPhone 15"
+    assert sample_smartphone.name == "iPhone 15"
 
 
 # Тест 002: Позитивный тест — проверка наследования атрибута description.
-def test_smartphone_inherits_description():
+def test_smartphone_inherits_description(sample_smartphone):
     """Smartphone должен наследовать атрибут description от Product."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.description == "Флагманский смартфон Apple"
+    assert sample_smartphone.description == "Флагманский смартфон Apple"
 
 
 # Тест 003: Позитивный тест — проверка наследования атрибута price.
-def test_smartphone_inherits_price():
+def test_smartphone_inherits_price(sample_smartphone):
     """Smartphone должен наследовать атрибут price от Product."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.price == 99990.0
+    assert sample_smartphone.price == 99990.0
 
 
 # Тест 004: Позитивный тест — проверка наследования атрибута quantity.
-def test_smartphone_inherits_quantity():
+def test_smartphone_inherits_quantity(sample_smartphone):
     """Smartphone должен наследовать атрибут quantity от Product."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.quantity == 10
+    assert sample_smartphone.quantity == 10
 
 
 # ============================================================================
@@ -79,67 +38,27 @@ def test_smartphone_inherits_quantity():
 
 
 # Тест 101: Позитивный тест — проверка наличия атрибута efficiency.
-def test_smartphone_has_efficiency():
+def test_smartphone_has_efficiency(sample_smartphone):
     """Smartphone должен иметь атрибут efficiency."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.efficiency == "high"
+    assert sample_smartphone.efficiency == "high"
 
 
 # Тест 102: Позитивный тест — проверка наличия атрибута model.
-def test_smartphone_has_model():
+def test_smartphone_has_model(sample_smartphone):
     """Smartphone должен иметь атрибут model."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.model == "iPhone 15 Pro"
+    assert sample_smartphone.model == "iPhone 15 Pro"
 
 
 # Тест 103: Позитивный тест — проверка наличия атрибута memory.
-def test_smartphone_has_memory():
+def test_smartphone_has_memory(sample_smartphone):
     """Smartphone должен иметь атрибут memory."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.memory == "256GB"
+    assert sample_smartphone.memory == "256GB"
 
 
 # Тест 104: Позитивный тест — проверка наличия атрибута color.
-def test_smartphone_has_color():
+def test_smartphone_has_color(sample_smartphone):
     """Smartphone должен иметь атрибут color."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert smartphone.color == "Черный"
+    assert sample_smartphone.color == "Черный"
 
 
 # ============================================================================
@@ -148,70 +67,30 @@ def test_smartphone_has_color():
 
 
 # Тест 201: Позитивный тест — __str__ для Smartphone возвращает строку.
-def test_smartphone_str_returns_string():
+def test_smartphone_str_returns_string(sample_smartphone):
     """Метод __str__ для Smartphone должен возвращать строку."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    result = str(smartphone)
+    result = str(sample_smartphone)
     assert isinstance(result, str)
 
 
 # Тест 202: Позитивный тест — __str__ для Smartphone содержит название.
-def test_smartphone_str_contains_name():
+def test_smartphone_str_contains_name(sample_smartphone):
     """Метод __str__ для Smartphone должен содержать название."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    result = str(smartphone)
+    result = str(sample_smartphone)
     assert "iPhone 15" in result
 
 
 # Тест 203: Позитивный тест — __str__ для Smartphone содержит модель.
-def test_smartphone_str_contains_model():
+def test_smartphone_str_contains_model(sample_smartphone):
     """Метод __str__ для Smartphone должен содержать модель."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    result = str(smartphone)
+    result = str(sample_smartphone)
     assert "iPhone 15 Pro" in result
 
 
 # Тест 204: Позитивный тест — __str__ для Smartphone содержит цвет.
-def test_smartphone_str_contains_color():
+def test_smartphone_str_contains_color(sample_smartphone):
     """Метод __str__ для Smartphone должен содержать цвет."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    result = str(smartphone)
+    result = str(sample_smartphone)
     assert "Черный" in result
 
 
@@ -221,22 +100,13 @@ def test_smartphone_str_contains_color():
 
 
 # Тест 301: Позитивный тест — Smartphone является экземпляром Product.
-def test_smartphone_is_instance_of_product():
+def test_smartphone_is_instance_of_product(sample_smartphone):
     """Smartphone должен быть экземпляром Product."""
-    smartphone = Smartphone(
-        name="iPhone 15",
-        description="Флагманский смартфон Apple",
-        price=99990.0,
-        quantity=10,
-        efficiency="high",
-        model="iPhone 15 Pro",
-        memory="256GB",
-        color="Черный",
-    )
-    assert isinstance(smartphone, Product)
+    assert isinstance(sample_smartphone, Product)
 
 
 # Тест 302: Позитивный тест — Smartphone является подклассом Product.
 def test_smartphone_is_subclass_of_product():
     """Smartphone должен быть подклассом Product."""
+    from src.smartphone import Smartphone
     assert issubclass(Smartphone, Product)

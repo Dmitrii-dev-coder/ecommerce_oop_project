@@ -226,13 +226,13 @@ def test_category_str_with_products():
 
 
 # ============================================================================
-# 3. Проверка ограничений добавления продукта через isinstance() (Задание 3)
+# 3. Проверка ограничений добавления продукта через isinstance()
 # ============================================================================
 
 
-# Тест 301: Позитивный тест — добавление Product в категорию работает.
+# Тест 301: Позитивный тест — добавление экземпляра Product в категорию работает.
 def test_add_product_to_category():
-    """Добавление Product в категорию должно работать."""
+    """Добавление Product Объекта в категорию должно работать."""
     Category.category_count = 0
     Category.product_count = 0
 
@@ -244,9 +244,9 @@ def test_add_product_to_category():
     assert category.products_list[0] is product
 
 
-# Тест 302: Позитивный тест — добавление Smartphone в категорию работает.
+# Тест 302: Позитивный тест — добавление экземпляра Smartphone в категорию работает.
 def test_add_smartphone_to_category():
-    """Добавление Smartphone в категорию должно работать."""
+    """Добавление Smartphone объекта в категорию должно работать."""
     Category.category_count = 0
     Category.product_count = 0
 
@@ -267,9 +267,9 @@ def test_add_smartphone_to_category():
     assert category.products_list[0] is smartphone
 
 
-# Тест 303: Позитивный тест — добавление LawnGrass в категорию работает.
+# Тест 303: Позитивный тест — добавление экземпляра LawnGrass в категорию работает.
 def test_add_lawn_grass_to_category():
-    """Добавление LawnGrass в категорию должно работать."""
+    """Добавление LawnGrass объекта в категорию должно работать."""
     Category.category_count = 0
     Category.product_count = 0
 
@@ -298,7 +298,7 @@ def test_add_string_to_category_raises_type_error():
     category = Category(name="Тестовая категория", description="Описание", products=[])
     with pytest.raises(TypeError) as exc_info:
         category.add_product("не продукт")
-    assert "Product" in str(exc_info.value) or "продукт" in str(exc_info.value).lower()
+    assert "Product" in str(exc_info.value)
 
 
 # Тест 305: Негативный тест — добавление числа в категорию вызывает TypeError.
@@ -310,7 +310,7 @@ def test_add_int_to_category_raises_type_error():
     category = Category(name="Тестовая категория", description="Описание", products=[])
     with pytest.raises(TypeError) as exc_info:
         category.add_product(123)
-    assert "Product" in str(exc_info.value) or "продукт" in str(exc_info.value).lower()
+    assert "Product" in str(exc_info.value)
 
 
 # Тест 306: Негативный тест — добавление None в категорию вызывает TypeError.
@@ -322,7 +322,7 @@ def test_add_none_to_category_raises_type_error():
     category = Category(name="Тестовая категория", description="Описание", products=[])
     with pytest.raises(TypeError) as exc_info:
         category.add_product(None)
-    assert "Product" in str(exc_info.value) or "продукт" in str(exc_info.value).lower()
+    assert "Product" in str(exc_info.value)
 
 
 # Тест 307: Негативный тест — добавление словаря в категорию вызывает TypeError.
@@ -334,4 +334,4 @@ def test_add_dict_to_category_raises_type_error():
     category = Category(name="Тестовая категория", description="Описание", products=[])
     with pytest.raises(TypeError) as exc_info:
         category.add_product({"name": "Товар"})
-    assert "Product" in str(exc_info.value) or "продукт" in str(exc_info.value).lower()
+    assert "Product" in str(exc_info.value)

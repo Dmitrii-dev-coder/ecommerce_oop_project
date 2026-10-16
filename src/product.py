@@ -50,7 +50,7 @@ class Product:
         :return: Сумма (цена * количество) текущего и другого продукта
         :raises TypeError: Если объекты разных классов
         """
-        if type(self) != type(other):  # noqa: E721
+        if type(self) is not type(other):  # noqa: E721
             raise TypeError(
                 "Можно складывать только объекты одного класса (Product или его наследников)"
             )
