@@ -184,7 +184,7 @@ pytest --cov=src --cov-report=html
   - LoadData: 1 тест
   - Smartphone: 14 тестов
   - LawnGrass: 13 тестов
-- **Покрытие:** 100%
+- **Покрытие:** 87.52%
 - **Статус:** Все тесты проходят
 - **Качество кода:** flake8 clean, mypy clean
 
