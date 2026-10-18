@@ -3,34 +3,15 @@
 from abc import ABC, abstractmethod
 
 
-class BaseProduct(ABC):  # type: ignore[misc]
+class BaseProduct(ABC):  # type: ignore[attr-defined]
     """Абстрактный базовый класс для всех продуктов.
 
-    Определяет общую функциональность для всех продуктов:
-    название, описание, цену и количество.
+    Определяет контракт для всех продуктов:
+    - name: str — название
+    - description: str — описание
+    - price: float — цена (через абстрактный property)
+    - quantity: int — количество
     """
-
-    # Подсказка для mypy из-за name mangling (__price -> _BaseProduct__price)
-    _BaseProduct__price: float
-
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        price: float,
-        quantity: int,
-    ) -> None:
-        """Инициализация базового продукта.
-
-        :param name: Название продукта
-        :param description: Описание продукта
-        :param price: Цена
-        :param quantity: Количество в наличии
-        """
-        self.name = name
-        self.description = description
-        self.__price = price
-        self.quantity = quantity
 
     @property
     @abstractmethod
@@ -51,13 +32,13 @@ class BaseProduct(ABC):  # type: ignore[misc]
         pass
 
     @classmethod
-    def new_product(cls, product_data: dict) -> "BaseProduct":  # type: ignore[no-untyped-def]
+    def new_product(cls, product_data: dict) -> "BaseProduct":  # type: ignore[no-untyped-def, call-arg]
         """Создать продукт из словаря.
 
         :param product_data: Словарь с данными продукта
         :return: Экземпляр класса
         """
-        return cls(
+        return cls(  # type: ignore[call-arg]
             name=product_data["name"],
             description=product_data["description"],
             price=product_data["price"],
@@ -66,9 +47,9 @@ class BaseProduct(ABC):  # type: ignore[misc]
 
     def __str__(self) -> str:
         """Возвращает строковое представление продукта."""
-        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."  # type: ignore[attr-defined]
 
-    def __add__(self, other: "BaseProduct") -> float:  # type: ignore[override]
+    def __add__(self, other: "BaseProduct") -> float:
         """Возвращает сумму цен двух продуктов с учётом количества.
 
         Складывать можно только объекты одного класса.
@@ -81,4 +62,4 @@ class BaseProduct(ABC):  # type: ignore[misc]
             raise TypeError(
                 "Можно складывать только объекты одного класса (Product или его наследников)"
             )
-        return self.price * self.quantity + other.price * other.quantity
+        return self.price * self.quantity + other.price * other.quantity  # type: ignore[attr-defined]

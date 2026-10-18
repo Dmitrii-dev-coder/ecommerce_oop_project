@@ -4,7 +4,7 @@ from src.base_product import BaseProduct
 from src.mixin import PrintInfoMixin
 
 
-class Product(PrintInfoMixin, BaseProduct):  # type: ignore[misc]
+class Product(PrintInfoMixin, BaseProduct):
     """Класс Product для представления товара.
 
     Наследуется от PrintInfoMixin (для печати информации) и BaseProduct
@@ -25,15 +25,23 @@ class Product(PrintInfoMixin, BaseProduct):  # type: ignore[misc]
         :param price: Цена
         :param quantity: Количество в наличии
         """
-        super().__init__(name=name, description=description, price=price, quantity=quantity)
+        # Сначала инициализируем атрибуты, которые нужны mixin
+        self.name = name
+        self.description = description
+        self.quantity = quantity
+        self.__price = price
+        # Затем вызываем super для печати информации (без аргументов)
+        super().__init__()
+        # Устанавливаем цену через сеттер (с проверкой)
+        self.price = price
 
     @property
-    def price(self) -> float:  # type: ignore[no-untyped-def, override]
+    def price(self) -> float:  # type: ignore[attr-defined]
         """Возвращает цену продукта."""
-        return self._BaseProduct__price
+        return self.__price
 
     @price.setter
-    def price(self, value: float) -> None:  # type: ignore[no-untyped-def, override, has-type]
+    def price(self, value: float) -> None:  # type: ignore[attr-defined]
         """Устанавливает цену продукта.
 
         :param value: Новая цена
@@ -42,8 +50,8 @@ class Product(PrintInfoMixin, BaseProduct):  # type: ignore[misc]
         if value <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
-        if value < self._BaseProduct__price:
+        if value < self.__price:
             confirm = input("Понизить цену? (y/n): ")
             if confirm.lower() != "y":
                 return
-        self._BaseProduct__price = value
+        self.__price = value
