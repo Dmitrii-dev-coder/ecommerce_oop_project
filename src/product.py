@@ -4,11 +4,11 @@ from src.base_product import BaseProduct
 from src.mixin import PrintInfoMixin
 
 
-class Product(PrintInfoMixin, BaseProduct):
+class Product(BaseProduct, PrintInfoMixin):
     """Класс Product для представления товара.
 
-    Наследуется от PrintInfoMixin (для печати информации) и BaseProduct
-    (абстрактный базовый класс с общей функциональностью).
+    Наследуется от BaseProduct (абстрактный базовый класс с общей функциональностью)
+    и PrintInfoMixin (для печати информации).
     """
 
     def __init__(
@@ -55,3 +55,36 @@ class Product(PrintInfoMixin, BaseProduct):
             if confirm.lower() != "y":
                 return
         self.__price = value
+
+    def __str__(self) -> str:
+        """Возвращает строковое представление продукта."""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: "Product") -> float:
+        """Возвращает сумму цен двух продуктов с учётом количества.
+
+        Складывать можно только объекты одного класса.
+
+        :param other: Другой экземпляр продукта
+        :return: Сумма (цена * количество) текущего и другого продукта
+        :raises TypeError: Если объекты разных классов
+        """
+        if type(self) is not type(other):  # noqa: E721
+            raise TypeError(
+                "Можно складывать только объекты одного класса (Product или его наследников)"
+            )
+        return self.price * self.quantity + other.price * other.quantity
+
+    @classmethod
+    def new_product(cls, product_data: dict) -> "Product":
+        """Создать продукт из словаря.
+
+        :param product_data: Словарь с данными продукта
+        :return: Экземпляр Product
+        """
+        return cls(
+            name=product_data["name"],
+            description=product_data["description"],
+            price=product_data["price"],
+            quantity=product_data["quantity"],
+        )
