@@ -24,6 +24,6 @@ class PrintInfoMixin:
         :param class_name: Имя класса
         """
         print(
-            f"{class_name}({self.name}, {self.description}, "
+            f"{class_name}({self.name}, {self.description}, "  # type: ignore[attr-defined]
             f"{self.price}, {self.quantity})"  # type: ignore[attr-defined]
         )

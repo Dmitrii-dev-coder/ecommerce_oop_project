@@ -35,6 +35,25 @@ class Product(BaseProduct, PrintInfoMixin):
         # Устанавливаем цену через сеттер (с проверкой)
         self.price = price
 
+    def __str__(self) -> str:
+        """Возвращает строковое представление продукта."""
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: "Product") -> float:
+        """Возвращает сумму цен двух продуктов с учётом количества.
+
+        Складывать можно только объекты одного класса.
+
+        :param other: Другой экземпляр продукта
+        :return: Сумма (цена * количество) текущего и другого продукта
+        :raises TypeError: Если объекты разных классов
+        """
+        if type(self) is not type(other):  # noqa: E721
+            raise TypeError(
+                "Можно складывать только объекты одного класса (Product или его наследников)"
+            )
+        return self.price * self.quantity + other.price * other.quantity
+
     @property
     def price(self) -> float:  # type: ignore[attr-defined]
         """Возвращает цену продукта."""
@@ -55,25 +74,6 @@ class Product(BaseProduct, PrintInfoMixin):
             if confirm.lower() != "y":
                 return
         self.__price = value
-
-    def __str__(self) -> str:
-        """Возвращает строковое представление продукта."""
-        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
-
-    def __add__(self, other: "Product") -> float:
-        """Возвращает сумму цен двух продуктов с учётом количества.
-
-        Складывать можно только объекты одного класса.
-
-        :param other: Другой экземпляр продукта
-        :return: Сумма (цена * количество) текущего и другого продукта
-        :raises TypeError: Если объекты разных классов
-        """
-        if type(self) is not type(other):  # noqa: E721
-            raise TypeError(
-                "Можно складывать только объекты одного класса (Product или его наследников)"
-            )
-        return self.price * self.quantity + other.price * other.quantity
 
     @classmethod
     def new_product(cls, product_data: dict) -> "Product":

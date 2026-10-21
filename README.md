@@ -5,9 +5,11 @@
 ## Содержание
 
 - [Классы](#классы)
+  - [BaseProduct](#baseproduct)
+  - [PrintInfoMixin](#printinfomixin)
   - [Product](#product)
   - [Smartphone](#smartphone)
-  - [LawnGrass](#lawn-grass)
+  - [LawnGrass](#lawngrass)
   - [Category](#category)
 - [Структура проекта](#структура-проекта)
 - [Тестирование](#тестирование)
@@ -16,9 +18,49 @@
 
 ## Классы
 
+### BaseProduct
+
+Абстрактный базовый класс для всех продуктов.
+
+Определяет контракт для всех продуктов — абстрактный метод `price` (геттер/сеттер).
+
+#### Абстрактные методы
+
+| Метод | Описание |
+| --- | --- |
+| `price` (геттер/сеттер) | Абстрактные методы для получения и установки цены |
+
+---
+<a id="printinfomixin"></a>
+### PrintInfoMixin
+
+Класс-миксин для печати информации о созданном объекте.
+
+Добавлен в цепочку наследования класса `Product`.
+
+#### Поведение
+
+При создании любого объекта, наследующего `PrintInfoMixin`, в консоль выводится информация о классе и параметрах:
+
+```
+ClassName('name', 'description', price, quantity)
+```
+
+#### Примеры вывода
+
+- `Product('Товар', 'Описание', 100.0, 5)`
+- `Smartphone('iPhone 15', 'Флагман', 99990.0, 10)`
+- `LawnGrass('Газон', 'Смесь трав', 500.0, 20)`
+
+---
+
 ### Product
 
 Класс для представления товара.
+
+Наследуется от `BaseProduct` (абстрактный базовый класс) и `PrintInfoMixin` (для печати информации при создании).
+
+**Абстрактные методы:** наследует абстрактные `price` (геттер/сеттер) от `BaseProduct`.
 
 #### Атрибуты
 
@@ -143,7 +185,9 @@
 ├── data/
 │   └── products.json    # JSON-файл с товарами
 ├── src/
-│   ├── __init__.py      # Экспорты: Product, Category, Smartphone, LawnGrass
+│   ├── __init__.py      # Экспорты: Product, Category, Smartphone, LawnGrass, BaseProduct, PrintInfoMixin
+│   ├── base_product.py  # Абстрактный базовый класс BaseProduct
+│   ├── mixin.py         # Класс-миксин PrintInfoMixin
 │   ├── product.py       # Класс Product
 │   ├── category.py      # Класс Category
 │   ├── smartphone.py    # Класс Smartphone (наследник Product)
@@ -151,6 +195,8 @@
 │   └── load_data.py     # Функция load_data
 └── tests/
     ├── conftest.py              # Фикстуры pytest
+    ├── test_base_product.py     # Тесты для BaseProduct (9 тестов)
+    ├── test_mixin.py            # Тесты для PrintInfoMixin (6 тестов)
     ├── test_product.py          # Тесты для Product (25 тестов)
     ├── test_category.py         # Тесты для Category (20 тестов)
     ├── test_load_data.py        # Тесты для load_data (1 тест)
@@ -178,13 +224,15 @@ pytest --cov=src --cov-report=html
 
 ### Результаты
 
-- **Всего тестов:** 76
-  - Product: 28 тестов
+- **Всего тестов:** 91
+  - BaseProduct: 9 тестов
+  - PrintInfoMixin: 6 тестов
+  - Product: 25 тестов
   - Category: 20 тестов
   - LoadData: 1 тест
   - Smartphone: 14 тестов
   - LawnGrass: 13 тестов
-- **Покрытие:** 87.52%
+- **Покрытие:** 98%
 - **Статус:** Все тесты проходят
 - **Качество кода:** flake8 clean, mypy clean
 
@@ -193,3 +241,4 @@ pytest --cov=src --cov-report=html
 - **Классы-наследники:** Smartphone и LawnGrass расширяют Product дополнительными атрибутами
 - **Ограничения сложения:** `__add__` работает только для объектов одного класса (через `type()`)
 - **Ограничения добавления:** `add_product` принимает только Product и его наследников (через `isinstance()`)
+

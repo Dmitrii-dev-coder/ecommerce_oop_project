@@ -14,7 +14,7 @@ from src.lawn_grass import LawnGrass
 # ============================================================================
 
 
-# Тест 001: Проверка что Product содержит PrintInfoMixin в MRO.
+# Тест 001: Проверка, что Product содержит PrintInfoMixin в MRO.
 def test_product_has_mixin_in_mro():
     """Product должен содержать PrintInfoMixin в цепочке наследования."""
     assert PrintInfoMixin in Product.__mro__
@@ -25,24 +25,22 @@ def test_product_has_mixin_in_mro():
 # ============================================================================
 
 
-# Тест 101: Проверка что при создании Product печатается информация.
+# Тест 101: Проверка, что при создании экземпляра Product печатается информация.
 def test_product_prints_creation_info():
-    """При создании Product должна печататься информация о создании."""
+    """При создании экземпляра Product должна печататься информация о создании."""
     with unittest.mock.patch("sys.stdout", new_callable=StringIO) as mock_stdout:
-        product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
-        assert product is not None  # noqa: PLW0120
-        output = mock_stdout.getvalue()
-        assert "Product" in output
-        assert "Товар" in output
-        assert "100.0" in output
-        assert "5" in output
+        _ = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+    output = mock_stdout.getvalue()
+    assert "Товар" in output
+    assert "100.0" in output
+    assert "5" in output
 
 
-# Тест 102: Проверка что при создании Smartphone печатается информация.
+# Тест 102: Проверка, что при создании Smartphone печатается информация.
 def test_smartphone_prints_creation_info():
     """При создании Smartphone должна печататься информация о создании."""
     with unittest.mock.patch("sys.stdout", new_callable=StringIO) as mock_stdout:
-        smartphone = Smartphone(
+        _ = Smartphone(
             name="iPhone 15",
             description="Флагманский смартфон Apple",
             price=99990.0,
@@ -52,7 +50,6 @@ def test_smartphone_prints_creation_info():
             memory="256GB",
             color="Черный",
         )
-        assert smartphone is not None  # noqa: PLW0120
         output = mock_stdout.getvalue()
         assert "Smartphone" in output
         assert "iPhone 15" in output
@@ -60,11 +57,11 @@ def test_smartphone_prints_creation_info():
         assert "10" in output
 
 
-# Тест 103: Проверка что при создании LawnGrass печатается информация.
+# Тест 103: Проверка, что при создании LawnGrass печатается информация.
 def test_lawn_grass_prints_creation_info():
     """При создании LawnGrass должна печататься информация о создании."""
     with unittest.mock.patch("sys.stdout", new_callable=StringIO) as mock_stdout:
-        lawn_grass = LawnGrass(
+        _ = LawnGrass(
             name="Газон 1",
             description="Смесь газонных трав",
             price=500.0,
@@ -73,7 +70,6 @@ def test_lawn_grass_prints_creation_info():
             germination_period="14 дней",
             color="Зеленый",
         )
-        assert lawn_grass is not None  # noqa: PLW0120
         output = mock_stdout.getvalue()
         assert "LawnGrass" in output
         assert "Газон 1" in output
@@ -86,12 +82,11 @@ def test_lawn_grass_prints_creation_info():
 # ============================================================================
 
 
-# Тест 201: Проверка что вывод содержит все параметры.
+# Тест 201: Проверка, что вывод содержит все параметры.
 def test_print_info_contains_all_params():
     """Вывод информации о создании должен содержать все параметры."""
     with unittest.mock.patch("sys.stdout", new_callable=StringIO) as mock_stdout:
-        product = Product(name="Тест", description="Описание", price=150.0, quantity=7)
-        assert product is not None  # noqa: PLW0120
+        _ = Product(name="Тест", description="Описание", price=150.0, quantity=7)
         output = mock_stdout.getvalue()
         assert "Тест" in output
         assert "Описание" in output
@@ -99,7 +94,7 @@ def test_print_info_contains_all_params():
         assert "7" in output
 
 
-# Тест 202: Проверка что миксин не ломает наследование.
+# Тест 202: Проверка, что миксин не ломает наследование.
 def test_mixin_does_not_break_inheritance():
     """Миксин не должен ломать цепочку наследования."""
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)

@@ -6,11 +6,7 @@ from abc import ABC, abstractmethod
 class BaseProduct(ABC):  # type: ignore[attr-defined]
     """Абстрактный базовый класс для всех продуктов.
 
-    Определяет контракт для всех продуктов:
-    - name: str — название
-    - description: str — описание
-    - price: float — цена (через абстрактный property)
-    - quantity: int — количество
+    Определяет контракт для всех продуктов — абстрактный метод price (геттер/сеттер).
     """
 
     @property
@@ -30,5 +26,3 @@ class BaseProduct(ABC):  # type: ignore[attr-defined]
         :param value: Новая цена
         """
         pass
-
-

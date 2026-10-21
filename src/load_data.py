@@ -18,12 +18,7 @@ def load_data(filepath: str) -> list:
     categories = []
     for category_data in data:
         products = [
-            Product(
-                name=p["name"],
-                description=p["description"],
-                price=p["price"],
-                quantity=p["quantity"],
-            )
+            Product.new_product(p)
             for p in category_data["products"]
         ]
         categories.append(
