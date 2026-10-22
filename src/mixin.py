@@ -2,28 +2,23 @@
 
 
 class PrintInfoMixin:
-    """Миксин для печати информации о создании объекта.
+    """Миксин для печати информации о созданном объекте.
 
     При создании объекта печатает в консоль информацию о том,
     от какого класса и с какими параметрами был создан объект.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, *args, **kwargs) -> None:  # type: ignore[no-untyped-def]
         """Инициализация объекта с печатью информации."""
-        super().__init__()
-        self._print_creation_info()
+        super().__init__(*args, **kwargs)
+        print(repr(self))
 
-    def _print_creation_info(self) -> None:
-        """Подготавливает данные для вывода информации о создании объекта."""
-        class_name = self.__class__.__name__
-        self._print_info(class_name)
-
-    def _print_info(self, class_name: str) -> None:  # type: ignore[attr-defined]
-        """Печатает информацию с указанием класса.
-
-        :param class_name: Имя класса
-        """
-        print(
-            f"{class_name}({self.name}, {self.description}, "  # type: ignore[attr-defined]
-            f"{self.price}, {self.quantity})"  # type: ignore[attr-defined]
+    def __repr__(self) -> str:
+        """Возвращает строковое представление объекта."""
+        return (
+            f"{self.__class__.__name__}("
+            f"'{self.name}', "  # type: ignore[attr-defined]
+            f"'{self.description}', "  # type: ignore[attr-defined]
+            f"{self.price}, "  # type: ignore[attr-defined]
+            f"{self.quantity})"  # type: ignore[attr-defined]
         )
