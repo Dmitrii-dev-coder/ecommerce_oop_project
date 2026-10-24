@@ -11,6 +11,7 @@
   - [Smartphone](#smartphone)
   - [LawnGrass](#lawngrass)
   - [Category](#category)
+  - [ZeroQuantityError](#zeroquantityerror)
 - [Структура проекта](#структура-проекта)
 - [Тестирование](#тестирование)
 
@@ -167,11 +168,26 @@ ClassName('name', 'description', price, quantity)
 | Метод | Описание |
 | --- | --- |
 | `add_product(product)` | Добавляет продукт в категорию (принимает только Product или его наследников) |
+| `middle_price()` | Возвращает средний ценник всех товаров в категории (0 если нет товаров) |
 | `products` (геттер) | Возвращает строку со всеми товарами |
 | `products_list` (геттер) | Возвращает список продуктов |
 | `__str__()` | Строковое представление: "Название, количество продуктов: X шт." |
 
 **Ограничение добавления:** Метод `add_product()` принимает только объекты типа `Product` или его наследников (`Smartphone`, `LawnGrass`). При попытке добавить объект другого типа выбрасывается `TypeError`.
+
+---
+
+### ZeroQuantityError
+
+Пользовательское исключение для обработки событий добавления товара с нулевым количеством.
+
+Вызывается в методе `add_product()` класса `Category` при попытке добавить товар, у которого количество равно нулю.
+
+#### Поведение
+
+- При успешном добавлении товара выводится сообщение: "Товар добавлен"
+- При ошибке (нулевое количество или неверный тип) выводится сообщение об ошибке
+- При любом исходе выводится сообщение: "Обработка добавления товара завершена" (блок finally)
 
 ---
 
@@ -190,6 +206,7 @@ ClassName('name', 'description', price, quantity)
 │   ├── mixin.py         # Класс-миксин PrintInfoMixin
 │   ├── product.py       # Класс Product
 │   ├── category.py      # Класс Category
+│   ├── exceptions.py   # Пользовательское исключение ZeroQuantityError
 │   ├── smartphone.py    # Класс Smartphone (наследник Product)
 │   ├── lawn_grass.py    # Класс LawnGrass (наследник Product)
 │   └── load_data.py     # Функция load_data
@@ -197,8 +214,9 @@ ClassName('name', 'description', price, quantity)
     ├── conftest.py              # Фикстуры pytest
     ├── test_base_product.py     # Тесты для BaseProduct (9 тестов)
     ├── test_mixin.py            # Тесты для PrintInfoMixin (6 тестов)
-    ├── test_product.py          # Тесты для Product (25 тестов)
-    ├── test_category.py         # Тесты для Category (20 тестов)
+    ├── test_product.py          # Тесты для Product (30 тестов)
+    ├── test_category.py         # Тесты для Category (25 тестов)
+    ├── test_exceptions.py       # Тесты для ZeroQuantityError (5 тестов)
     ├── test_load_data.py        # Тесты для load_data (1 тест)
     ├── test_smartphone.py       # Тесты для Smartphone (14 тестов)
     └── test_lawn_grass.py       # Тесты для LawnGrass (13 тестов)
@@ -224,11 +242,12 @@ pytest --cov=src --cov-report=html
 
 ### Результаты
 
-- **Всего тестов:** 91
+- **Всего тестов:** 107
   - BaseProduct: 9 тестов
   - PrintInfoMixin: 6 тестов
-  - Product: 25 тестов
-  - Category: 20 тестов
+  - Product: 30 тестов
+  - Category: 25 тестов
+  - Exceptions: 5 тестов
   - LoadData: 1 тест
   - Smartphone: 14 тестов
   - LawnGrass: 13 тестов
@@ -241,4 +260,7 @@ pytest --cov=src --cov-report=html
 - **Классы-наследники:** Smartphone и LawnGrass расширяют Product дополнительными атрибутами
 - **Ограничения сложения:** `__add__` работает только для объектов одного класса (через `type()`)
 - **Ограничения добавления:** `add_product` принимает только Product и его наследников (через `isinstance()`)
+- **Обработка нулевого количества:** Product с quantity=0 или quantity<0 выбрасывает ValueError
+- **Средний ценник:** `middle_price()` возвращает среднее значение цен всех товаров категории
+- **Пользовательское исключение:** ZeroQuantityError для обработки добавления товара с нулевым количеством
 

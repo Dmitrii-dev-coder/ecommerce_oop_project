@@ -335,3 +335,94 @@ def test_add_dict_to_category_raises_type_error():
     with pytest.raises(TypeError) as exc_info:
         category.add_product({"name": "Товар"})
     assert "Product" in str(exc_info.value)
+
+
+# ============================================================================
+# 4. Проверка метода average_price() (Задание 2)
+# ============================================================================
+
+
+# Тест 401: Проверка что middle_price() возвращает среднее значение цен для категории с товарами.
+def test_middle_price_returns_average():
+    """Метод middle_price() должен возвращать среднее значение цен всех товаров категории."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    product1 = Product(name="Товар 1", description="Описание", price=100.0, quantity=5)
+    product2 = Product(name="Товар 2", description="Описание", price=200.0, quantity=10)
+    product3 = Product(name="Товар 3", description="Описание", price=300.0, quantity=15)
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[product1, product2, product3],
+    )
+    result = category.middle_price()
+    assert result == 200.0  # (100 + 200 + 300) / 3 = 200.0
+
+
+# Тест 402: Проверка что middle_price() возвращает 0 для пустой категории.
+def test_middle_price_returns_zero_for_empty_category():
+    """Метод middle_price() должен возвращать 0 для категории без товаров."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    category = Category(
+        name="Пустая категория",
+        description="Описание",
+        products=[],
+    )
+    result = category.middle_price()
+    assert result == 0
+
+
+# Тест 403: Проверка что middle_price() корректно складывает цены и делит на количество.
+def test_middle_price_correct_calculation():
+    """Метод middle_price() должен корректно складывать цены и делить на количество товаров."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    product1 = Product(name="Товар 1", description="Описание", price=50.0, quantity=10)
+    product2 = Product(name="Товар 2", description="Описание", price=150.0, quantity=20)
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[product1, product2],
+    )
+    result = category.middle_price()
+    assert result == 100.0  # (50 + 150) / 2 = 100.0
+
+
+# Тест 404: Проверка что middle_price() возвращает float.
+def test_middle_price_returns_float():
+    """Метод middle_price() должен возвращать значение типа float."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[product],
+    )
+    result = category.middle_price()
+    assert isinstance(result, float)
+
+
+# Тест 405: Проверка что middle_price() для одного товара возвращает его цену.
+def test_middle_price_single_product():
+    """Метод middle_price() для одного товара должен возвращать его цену."""
+    Category.category_count = 0
+    Category.product_count = 0
+
+    product = Product(name="Товар", description="Описание", price=42.5, quantity=5)
+
+    category = Category(
+        name="Тестовая категория",
+        description="Описание",
+        products=[product],
+    )
+    result = category.middle_price()
+    assert result == 42.5
