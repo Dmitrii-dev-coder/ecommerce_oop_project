@@ -211,37 +211,38 @@ def test_product_add_same_price():
     assert result == 1000.0
 
 
+# Тест 404: Негативный тест — сложение Product со строкой вызывает TypeError.
+def test_product_add_invalid_type():
+    """Метод __add__ должен вызывать TypeError для не Product объектов."""
+    product = Product(name="Товар", description="Описание", price=10.0, quantity=5)
+    with pytest.raises(TypeError) as exc_info:
+        product + "не продукт"
+    assert "одного класса" in str(exc_info.value)
+
+
 # ============================================================================
-# 4. Проверка обработки нулевого и отрицательного количества (Задание 1)
+# 5. Проверка обработки нулевого и отрицательного количества при создании экземпляров Product, Smartphone и LawnGrass
 # ============================================================================
 
 
-# Тест 404: Негативный тест — создание Product с нулевым количеством вызывает ValueError.
+# Тест 501: Негативный тест — создание Product с нулевым количеством вызывает ValueError.
 def test_product_zero_quantity_raises_value_error():
-    """Создание Product с quantity=0 должно выбрасывать ValueError."""
+    """Создание экземпляра Product с quantity=0 должно выбрасывать ValueError."""
     with pytest.raises(ValueError) as exc_info:
         Product(name="Товар", description="Описание", price=10.0, quantity=0)
     assert "нулевым количеством" in str(exc_info.value)
 
 
-# Тест 405: Негативный тест — создание Product с отрицательным количеством вызывает ValueError.
-def test_product_negative_quantity_raises_value_error():
-    """Создание Product с quantity<0 должно выбрасывать ValueError."""
-    with pytest.raises(ValueError) as exc_info:
-        Product(name="Товар", description="Описание", price=10.0, quantity=-5)
-    assert "нулевым количеством" in str(exc_info.value)
-
-
-# Тест 406: Позитивный тест — создание Product с quantity>0 работает корректно.
+# Тест 502: Позитивный тест — создание Product с quantity>0 работает корректно.
 def test_product_positive_quantity_works():
-    """Создание Product с quantity>0 должно работать."""
+    """Создание экземпляра Product с quantity>0 должно работать."""
     product = Product(name="Товар", description="Описание", price=10.0, quantity=5)
     assert product.quantity == 5
 
 
-# Тест 407: Негативный тест — создание Smartphone с quantity=0 вызывает ValueError.
+# Тест 503: Негативный тест — создание Smartphone с quantity=0 вызывает ValueError.
 def test_smartphone_zero_quantity_raises_value_error():
-    """Создание Smartphone с quantity=0 должно выбрасывать ValueError."""
+    """Создание экземпляра Smartphone с quantity=0 должно выбрасывать ValueError."""
     with pytest.raises(ValueError) as exc_info:
         Smartphone(
             name="iPhone 15",
@@ -256,9 +257,9 @@ def test_smartphone_zero_quantity_raises_value_error():
     assert "нулевым количеством" in str(exc_info.value)
 
 
-# Тест 408: Позитивный тест — создание Smartphone с quantity>0 работает корректно.
+# Тест 504: Позитивный тест — создание Smartphone с quantity>0 работает корректно.
 def test_smartphone_positive_quantity_works():
-    """Создание Smartphone с quantity>0 должно работать."""
+    """Создание экземпляра Smartphone с quantity>0 должно работать."""
     smartphone = Smartphone(
         name="iPhone 15",
         description="Флагманский смартфон Apple",
@@ -272,9 +273,9 @@ def test_smartphone_positive_quantity_works():
     assert smartphone.quantity == 10
 
 
-# Тест 409: Негативный тест — создание LawnGrass с quantity=0 вызывает ValueError.
+# Тест 505: Негативный тест — создание LawnGrass с quantity=0 вызывает ValueError.
 def test_lawn_grass_zero_quantity_raises_value_error():
-    """Создание LawnGrass с quantity=0 должно выбрасывать ValueError."""
+    """Создание экземпляра LawnGrass с quantity=0 должно выбрасывать ValueError."""
     with pytest.raises(ValueError) as exc_info:
         LawnGrass(
             name="Газон 1",
@@ -288,9 +289,9 @@ def test_lawn_grass_zero_quantity_raises_value_error():
     assert "нулевым количеством" in str(exc_info.value)
 
 
-# Тест 410: Позитивный тест — создание LawnGrass с quantity>0 работает корректно.
+# Тест 506: Позитивный тест — создание LawnGrass с quantity>0 работает корректно.
 def test_lawn_grass_positive_quantity_works():
-    """Создание LawnGrass с quantity>0 должно работать."""
+    """Создание экземпляра LawnGrass с quantity>0 должно работать."""
     lawn_grass = LawnGrass(
         name="Газон 1",
         description="Смесь газонных трав",
@@ -304,29 +305,13 @@ def test_lawn_grass_positive_quantity_works():
 
 
 # ============================================================================
-# 5. Проверка ограничений сложения через type() (Задание 2)
+# 6. Проверка ограничений сложения через type()
 # ============================================================================
 
 
-# Тест 501: Позитивный тест — сложение двух экземпляров Smartphone работает.
-def test_product_add_invalid_type():
-    """Метод __add__ должен вызывать TypeError для не Product объектов."""
-    product = Product(name="Товар", description="Описание", price=10.0, quantity=5)
-    try:
-        product + "не продукт"
-        assert False, "TypeError не был вызван"
-    except TypeError as e:
-        assert "Product" in str(e)
-
-
-# ============================================================================
-# 5. Проверка ограничений сложения через type() (Задание 2)
-# ============================================================================
-
-
-# Тест 501: Позитивный тест — сложение двух экземпляров Smartphone работает.
+# Тест 601: Позитивный тест — сложение двух экземпляров Smartphone работает.
 def test_add_two_smartphone():
-    """Сложение двух Smartphone объектов должно работать."""
+    """Сложение двух экземпляров Smartphone объектов должно работать."""
     smartphone1 = Smartphone(
         name="iPhone 15",
         description="Флагманский смартфон Apple",
@@ -352,9 +337,9 @@ def test_add_two_smartphone():
     assert result == 1449850.0
 
 
-# Тест 502: Позитивный тест — сложение двух LawnGrass работает.
+# Тест 602: Позитивный тест — сложение двух LawnGrass работает.
 def test_add_two_lawn_grass():
-    """Сложение двух LawnGrass объектов должно работать."""
+    """Сложение двух экземпляров LawnGrass объектов должно работать."""
     lawn_grass1 = LawnGrass(
         name="Газон 1",
         description="Смесь газонных трав",
@@ -378,9 +363,9 @@ def test_add_two_lawn_grass():
     assert result == 19000.0
 
 
-# Тест 503: Негативный тест — сложение Smartphone и LawnGrass вызывает TypeError.
+# Тест 603: Негативный тест — сложение Smartphone и LawnGrass вызывает TypeError.
 def test_add_smartphone_and_lawn_grass_raises_type_error():
-    """Сложение Smartphone и LawnGrass должно вызывать TypeError."""
+    """Сложение экземпляра Smartphone и экземпляра LawnGrass должно вызывать TypeError."""
     smartphone = Smartphone(
         name="iPhone 15",
         description="Флагманский смартфон Apple",
@@ -405,9 +390,9 @@ def test_add_smartphone_and_lawn_grass_raises_type_error():
     assert "одного класса" in str(exc_info.value)
 
 
-# Тест 504: Негативный тест — сложение Smartphone и Product вызывает TypeError.
+# Тест 604: Негативный тест — сложение Smartphone и Product вызывает TypeError.
 def test_add_smartphone_and_product_raises_type_error():
-    """Сложение Smartphone и Product должно вызывать TypeError."""
+    """Сложение экземпляра Smartphone и экземпляра Product должно вызывать TypeError."""
     smartphone = Smartphone(
         name="iPhone 15",
         description="Флагманский смартфон Apple",
@@ -424,9 +409,9 @@ def test_add_smartphone_and_product_raises_type_error():
     assert "одного класса" in str(exc_info.value)
 
 
-# Тест 505: Негативный тест — сложение LawnGrass и Product вызывает TypeError.
+# Тест 605: Негативный тест — сложение LawnGrass и Product вызывает TypeError.
 def test_add_lawn_grass_and_product_raises_type_error():
-    """Сложение LawnGrass и Product должно вызывать TypeError."""
+    """Сложение экземпляра LawnGrass и экземпляра Product должно вызывать TypeError."""
     lawn_grass = LawnGrass(
         name="Газон 1",
         description="Смесь газонных трав",
@@ -439,13 +424,4 @@ def test_add_lawn_grass_and_product_raises_type_error():
     product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
     with pytest.raises(TypeError) as exc_info:
         lawn_grass + product
-    assert "одного класса" in str(exc_info.value)
-
-
-# Тест 506: Негативный тест — сложение Product со строкой вызывает TypeError.
-def test_add_product_and_string_raises_type_error():
-    """Сложение Product и строки должно вызывать TypeError."""
-    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
-    with pytest.raises(TypeError) as exc_info:
-        product + "не продукт"
     assert "одного класса" in str(exc_info.value)

@@ -1,7 +1,6 @@
 """Модуль с классом Category."""
 
 from src.product import Product
-from src.exceptions import ZeroQuantityError
 
 
 class Category:
@@ -47,18 +46,13 @@ class Category:
 
         :param product: Экземпляр класса Product или его наследника
         :raises TypeError: Если передан объект не типа Product
-        :raises ZeroQuantityError: Если товар имеет нулевое количество
         """
         try:
             if not isinstance(product, Product):
                 raise TypeError(
                     "Можно добавлять только объекты типа Product или его наследников"
                 )
-            if product.quantity == 0:
-                raise ZeroQuantityError(
-                    "Товар с нулевым количеством не может быть добавлен"
-                )
-        except (TypeError, ZeroQuantityError) as e:
+        except TypeError as e:
             print(e)
             raise
         else:
@@ -76,10 +70,11 @@ class Category:
 
         :return: Средний ценник или 0 если товаров нет
         """
-        if not self.__products:
+        try:
+            total_price = sum(product.price for product in self.__products)
+            return total_price / len(self.__products)
+        except ZeroDivisionError:
             return 0
-        total_price = sum(product.price for product in self.__products)
-        return total_price / len(self.__products)
 
     @property
     def products(self) -> str:

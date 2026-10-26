@@ -338,11 +338,11 @@ def test_add_dict_to_category_raises_type_error():
 
 
 # ============================================================================
-# 4. Проверка метода average_price() (Задание 2)
+# 4. Проверка метода middle_price()
 # ============================================================================
 
 
-# Тест 401: Проверка что middle_price() возвращает среднее значение цен для категории с товарами.
+# Тест 401: Проверка, что middle_price() возвращает среднее значение цен для категории с товарами.
 def test_middle_price_returns_average():
     """Метод middle_price() должен возвращать среднее значение цен всех товаров категории."""
     Category.category_count = 0
@@ -376,14 +376,14 @@ def test_middle_price_returns_zero_for_empty_category():
     assert result == 0
 
 
-# Тест 403: Проверка что middle_price() корректно складывает цены и делит на количество.
-def test_middle_price_correct_calculation():
-    """Метод middle_price() должен корректно складывать цены и делить на количество товаров."""
+# Тест 403: Проверка что middle_price() возвращает float.
+def test_middle_price_returns_float():
+    """Метод middle_price() должен возвращать значение типа float."""
     Category.category_count = 0
     Category.product_count = 0
 
-    product1 = Product(name="Товар 1", description="Описание", price=50.0, quantity=10)
-    product2 = Product(name="Товар 2", description="Описание", price=150.0, quantity=20)
+    product1 = Product(name="Товар 1", description="Описание", price=100.0, quantity=5)
+    product2 = Product(name="Товар 2", description="Описание", price=200.0, quantity=10)
 
     category = Category(
         name="Тестовая категория",
@@ -391,27 +391,10 @@ def test_middle_price_correct_calculation():
         products=[product1, product2],
     )
     result = category.middle_price()
-    assert result == 100.0  # (50 + 150) / 2 = 100.0
-
-
-# Тест 404: Проверка что middle_price() возвращает float.
-def test_middle_price_returns_float():
-    """Метод middle_price() должен возвращать значение типа float."""
-    Category.category_count = 0
-    Category.product_count = 0
-
-    product = Product(name="Товар", description="Описание", price=100.0, quantity=5)
-
-    category = Category(
-        name="Тестовая категория",
-        description="Описание",
-        products=[product],
-    )
-    result = category.middle_price()
     assert isinstance(result, float)
 
 
-# Тест 405: Проверка что middle_price() для одного товара возвращает его цену.
+# Тест 404: Проверка что middle_price() для одного товара возвращает его цену.
 def test_middle_price_single_product():
     """Метод middle_price() для одного товара должен возвращать его цену."""
     Category.category_count = 0

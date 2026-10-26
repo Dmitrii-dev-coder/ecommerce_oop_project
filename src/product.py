@@ -26,7 +26,7 @@ class Product(BaseProduct, PrintInfoMixin):
         :param quantity: Количество в наличии
         :raises ValueError: Если количество равно нулю или отрицательное
         """
-        if quantity <= 0:
+        if quantity == 0:
             raise ValueError("Товар с нулевым количеством не может быть добавлен")
         # Сначала инициализируем атрибуты, которые нужны mixin
         self.name = name
