@@ -37,7 +37,7 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Unit tests / coverage reports
-#htmlcov/
+
 .tox/
 .nox/
 .coverage
@@ -222,3 +222,6 @@ test_log_example.txt
 
 # Локальные инструкции ассистента
 .gigacode/
+.gigaide/
+instructions.md
+backup_gigacode/
